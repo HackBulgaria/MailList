@@ -6,7 +6,7 @@ The idea is to work with a code, that is not yours. Navigate around the code and
 
 After this, it's time for some refactoring in teams:
 
-* Fix bugs, if any (hitn - run the tests)
+* Fix bugs, if any (hint - run the tests with ```python run_tests.py```)
 * Replace the files with sqlite for storage
 * Implement the rest of the functionality
 
