@@ -18,16 +18,6 @@ class MailListProgram():
         self._init_callbacks()
         self._loop()
 
-    def _init_callbacks(self):
-        self.cp.on("create", self.create_list_callback)
-        self.cp.on("add", self.add_subscriber_callback)
-        self.cp.on("show_lists", self.show_lists_callback)
-        self.cp.on("show_list", self.show_list_callback)
-        self.cp.on("exit", self.exit_callback)
-
-    def _notify_save(self, list_id):
-        self.lists[list_id][1].save()
-
     def create_list_callback(self, arguments):
         name = " ".join(arguments)
 
@@ -68,13 +58,23 @@ class MailListProgram():
         dir_lists = map(basename, glob(self.db_path + "*"))
 
         for list_file in dir_lists:
-            # fixed
             adapter = MailListFileAdapter(self.db_path)
             parsed_list = adapter.load(list_file)
 
             maillist_adapter = MailListFileAdapter(self.db_path, parsed_list)
 
             self.lists[parsed_list.get_id()] = (parsed_list, maillist_adapter)
+
+    def _init_callbacks(self):
+        self.cp.on("create", self.create_list_callback)
+        self.cp.on("add", self.add_subscriber_callback)
+        self.cp.on("show_lists", self.show_lists_callback)
+        self.cp.on("show_list", self.show_list_callback)
+        self.cp.on("exit", self.exit_callback)
+        # TODO - implement the rest of the callbacks
+
+    def _notify_save(self, list_id):
+        self.lists[list_id][1].save()
 
     def _loop(self):
         while True:
