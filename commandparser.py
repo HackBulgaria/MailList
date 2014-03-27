@@ -10,4 +10,5 @@ class CommandParser(object):
         command_parts = unparsed_command.split(" ")
         arguments = command_parts[1:]
 
-        self.callback_hash[command_parts[0]](arguments)
+        if command_parts[0] in self.callback_hash:
+            self.callback_hash[command_parts[0]](arguments)
